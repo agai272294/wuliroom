@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>哈哈 - 物理小屋</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #3b82f6; --bg: #f8fafc; --card: #fff; --text: #1e293b; }
+        body { font-family: 'Microsoft YaHei', sans-serif; background: var(--bg); }
+        header { background: linear-gradient(135deg, var(--primary), #06b6d4); padding: 1rem 2rem; }
+        .logo { color: white; font-size: 1.2rem; font-weight: bold; }
+        .logo a { color: white; text-decoration: none; }
+        main { max-width: 800px; margin: 0 auto; padding: 2rem; }
+        .card { background: var(--card); border-radius: 16px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 3px 15px rgba(0,0,0,0.08); }
+        .tag { display: inline-block; padding: 0.3rem 0.8rem; background: var(--primary); color: white; border-radius: 20px; font-size: 0.8rem; margin-bottom: 1rem; }
+        h1 { font-size: 1.5rem; margin-bottom: 1rem; }
+        .meta { color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .content { line-height: 1.8; color: var(--text); }
+        .content img { max-width: 100%; border-radius: 8px; margin: 1rem 0; }
+        footer { background: #1e293b; color: rgba(255,255,255,0.7); text-align: center; padding: 1.5rem; }
+    </style>
+</head>
+<body>
+    <header><div class="logo"><a href="index.html"><i class="fas fa-atom"></i> 物理小屋</a></div></header>
+    <main>
+        <article class="card">
+            <span class="tag">八年级上 · 机械运动</span>
+            <h1>哈哈</h1>
+            <p class="meta">发布时间：2026-04-05 · 浏览：0</p>
+            <div class="content">瞎整</div>
+        </article>
+    </main>
+    <footer><p>© 2026 物理小屋 | <a href="index.html" style="color:white;">返回首页</a></p></footer>
+</body>
+</html>
