@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布文章 - 物理小屋</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #3b82f6; --success: #10b981; --bg: #f1f5f9; --card: #fff; --text: #1e293b; --text-light: #64748b; }
+        body { font-family: 'Microsoft YaHei', sans-serif; background: var(--bg); padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        h1 { color: var(--primary); margin-bottom: 20px; }
+        .card { background: var(--card); padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: 500; }
+        input, select, textarea { width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
+        textarea { min-height: 100px; }
+        .btn { padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 500; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-success { background: var(--success); color: white; }
+        .msg { padding: 10px; border-radius: 8px; margin-bottom: 15px; }
+        .msg-success { background: #d1fae5; color: #065f46; }
+        .msg-error { background: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 发布文章到数据库</h1>
+        
+        <div class="card">
+            <div id="msg"></div>
+            
+            <div class="form-group">
+                <label>文章标题 *</label>
+                <input type="text" id="title" placeholder="如：机械运动精讲">
+            </div>
+            
+            <div class="form-group">
+                <label>选择年级 *</label>
+                <select id="grade">
+                    <option value="">请选择年级</option>
+                    <option value="八年级上">八年级上</option>
+                    <option value="八年级下">八年级下</option>
+                    <option value="九年级">九年级</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>选择章节</label>
+                <select id="chapter">
+                    <option value="">请先选择年级</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>文章简介 *</label>
+                <textarea id="description" placeholder="请输入文章简介，会显示在列表中..."></textarea>
+            </div>
+            
+            <button class="btn btn-success" onclick="publish()">🚀 发布到数据库</button>
+        </div>
+    </div>
+
+    <script>
+        // NAS API地址
+        const API_URL = 'http://192.168.1.222:3000';
+        
+        // 年级-章节数据
+        const chapterData = {
+            '八年级上': ['机械运动', '声现象', '物态变化', '光现象', '透镜'],
+            '八年级下': ['力', '运动和力', '压强', '浮力', '功和机械能'],
+            '九年级': ['内能', '内能的利用', '电流和电路', '电压电阻', '欧姆定律', '电功率', '生活用电', '电磁']
+        };
+        
+        // 年级切换联动章节
+        document.getElementById('grade').addEventListener('change', function() {
+            const grade = this.value;
+            const chapterSelect = document.getElementById('chapter');
+            chapterSelect.innerHTML = '<option value="">请选择章节</option>';
+            if (grade && chapterData[grade]) {
+                chapterData[grade].forEach(ch => {
+                    chapterSelect.innerHTML += `<option value="${ch}">${ch}</option>`;
+                });
+            }
+        });
+        
+        // 发布文章
+        async function publish() {
+            const title = document.getElementById('title').value;
+            const grade = document.getElementById('grade').value;
+            const chapter = document.getElementById('chapter').value;
+            const description = document.getElementById('description').value;
+            
+            if (!title || !grade || !description) {
+                showMsg('请填写必填项！', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(API_URL + '/api/posts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title: title,
+                        grade: grade,
+                        chapter: chapter,
+                        description: description,
+                        type: 'article',
+                        file: ''
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showMsg('✅ 文章发布成功！', 'success');
+                    // 清空表单
+                    document.getElementById('title').value = '';
+                    document.getElementById('description').value = '';
+                    document.getElementById('grade').value = '';
+                    document.getElementById('chapter').value = '';
+                } else {
+                    showMsg('❌ 发布失败：' + result.error, 'error');
+                }
+            } catch (e) {
+                showMsg('❌ 网络错误！', 'error');
+            }
+        }
+        
+        function showMsg(text, type) {
+            document.getElementById('msg').innerHTML = `<div class="msg msg-${type}">${text}</div>`;
+        }
+    </script>
+</body>
+</html>
