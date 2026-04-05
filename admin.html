@@ -190,7 +190,7 @@
             }
             
             // 生成文件名
-            const filename = title.toLowerCase().replace(/[^\u4e00-\u9fa5a-z0-9]/g, '-').substring(0, 30) + '.html';
+            const filename = 'posts/' + title.toLowerCase().replace(/[^\u4e00-\u9fa5a-z0-9]/g, '-').substring(0, 30) + '.html';
             const date = new Date().toISOString().slice(0, 10);
             
             // 类型对应图标
