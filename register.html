@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 - 物理小屋</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #10b981; --bg: #f0f4f8; }
+        body { font-family: 'Microsoft YaHei', sans-serif; background: var(--bg); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .box { background: white; padding: 2rem; border-radius: 16px; width: 90%; max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        .logo { text-align: center; margin-bottom: 2rem; color: var(--primary); font-size: 1.5rem; font-weight: bold; }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+        .form-group input { width: 100%; padding: 0.8rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem; }
+        .form-group input:focus { outline: none; border-color: var(--primary); }
+        .btn { width: 100%; padding: 0.8rem; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 1rem; cursor: pointer; font-weight: 500; }
+        .tips { text-align: center; margin-top: 1rem; color: #64748b; }
+        .tips a { color: var(--primary); text-decoration: none; }
+        .back { text-align: center; margin-top: 1.5rem; }
+        .back a { color: #64748b; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="logo"><i class="fas fa-atom"></i> 物理小屋</div>
+        <form>
+            <div class="form-group">
+                <label>用户名</label>
+                <input type="text" placeholder="请输入用户名">
+            </div>
+            <div class="form-group">
+                <label>邮箱</label>
+                <input type="email" placeholder="请输入邮箱">
+            </div>
+            <div class="form-group">
+                <label>密码</label>
+                <input type="password" placeholder="请输入密码">
+            </div>
+            <div class="form-group">
+                <label>确认密码</label>
+                <input type="password" placeholder="请再次输入密码">
+            </div>
+            <button type="button" class="btn" onclick="alert('注册功能开发中')">注册</button>
+        </form>
+        <div class="tips">已有账号？<a href="login.html">直接登录</a></div>
+        <div class="back"><a href="index.html">← 返回首页</a></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>物理小屋 - 初中物理知识站</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #3b82f6;
+            --secondary: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --bg-dark: #1e293b;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+        
+        /* 顶部 */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 0.8rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(59,130,246,0.3);
+        }
+        
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .top-right {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+        
+        .search-input {
+            padding: 0.4rem 0.8rem 0.4rem 2rem;
+            border-radius: 20px;
+            border: none;
+            width: 140px;
+            font-size: 0.85rem;
+        }
+        
+        .auth-btn {
+            padding: 0.4rem 0.8rem;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a, var(--primary));
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero h1 { font-size: 1.8rem; margin-bottom: 0.3rem; }
+        .hero p { opacity: 0.9; font-size: 0.95rem; }
+        
+        /* 年级 TAB */
+        .grade-tabs {
+            display: flex;
+            background: var(--card);
+            padding: 0.8rem 1.5rem;
+            gap: 0.5rem;
+            overflow-x: auto;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .grade-tab {
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .grade-tab:hover { background: rgba(59,130,246,0.1); }
+        
+        .grade-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .grade-tab.bx { border-color: var(--primary); color: var(--primary); }
+        .grade-tab.bx.active { background: var(--primary); color: white; }
+        
+        .grade-tab.bx-down { border-color: var(--success); color: var(--success); }
+        .grade-tab.bx-down.active { background: var(--success); color: white; }
+        
+        .grade-tab.nj { border-color: var(--warning); color: var(--warning); }
+        .grade-tab.nj.active { background: var(--warning); color: white; }
+        
+        /* 频道栏 */
+        .channel-bar {
+            display: flex;
+            background: #e2e8f0;
+            padding: 0.6rem 1.5rem;
+            gap: 0.8rem;
+            overflow-x: auto;
+        }
+        
+        .channel-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+        
+        .channel-btn:hover { background: var(--card); }
+        .channel-btn.active { background: var(--card); color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        
+        /* 二级菜单 */
+        .chapter-nav {
+            background: var(--card);
+            padding: 0.8rem 1.5rem;
+            display: none;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .chapter-nav.show { display: flex; }
+        
+        .chapter-item {
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f1f5f9;
+        }
+        
+        .chapter-item:hover, .chapter-item.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* 主体 */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        
+        /* 网格 */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1rem;
+        }
+        
+        .content-card {
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .content-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .card-thumb {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .card-thumb.video { background: linear-gradient(135deg, var(--danger), #f97316); }
+        .card-thumb.paper { background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+        .card-thumb.answer { background: linear-gradient(135deg, var(--success), var(--secondary)); }
+        .card-thumb.article { background: linear-gradient(135deg, #8b5cf6, #ec4899); }
+        
+        .card-body { padding: 1rem; }
+        
+        .card-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        
+        .card-desc {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+        
+        .card-meta span { display: flex; align-items: center; gap: 0.3rem; }
+        
+        /* 空白提示 */
+        .empty-tip {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+        
+        /* 关于 */
+        .about {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .about h2 { color: var(--primary); margin-bottom: 0.5rem; }
+        
+        footer {
+            background: var(--bg-dark);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 600px) {
+            .header-inner { justify-content: center; }
+            .hero h1 { font-size: 1.4rem; }
+            .grade-tabs { justify-content: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部 -->
+    <header>
+        <div class="header-inner">
+            <div class="logo">
+                <i class="fas fa-atom"></i>
+                物理小屋
+            </div>
+            <div class="top-right">
+                <div style="position:relative;">
+                    <i class="fas fa-search" style="position:absolute;left:0.6rem;top:50%;transform:translateY(-50%);color:var(--text-light);font-size:0.8rem;"></i>
+                    <input type="text" class="search-input" placeholder="搜索...">
+                </div>
+                <button class="auth-btn"><i class="fas fa-user"></i> 登录</button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero -->
+    <section class="hero">
+        <h1>🔭 物理小屋</h1>
+        <p>初中物理知识分享平台</p>
+    </section>
+    
+    <!-- 年级TAB -->
+    <div class="grade-tabs">
+        <div class="grade-tab active" data-grade="bx">📚 八年级上</div>
+        <div class="grade-tab bx-down" data-grade="bx-down">⚙️ 八年级下</div>
+        <div class="grade-tab nj" data-grade="nj">🔥 九年级</div>
+    </div>
+    
+    <!-- 章节二级菜单 -->
+    <div class="chapter-nav show" id="chapterNav">
+        <!-- 八上章节 -->
+        <div class="chapter-group" data-grade="bx" style="display:none;">
+            <div class="chapter-item active">机械运动</div>
+            <div class="chapter-item">声现象</div>
+            <div class="chapter-item">物态变化</div>
+            <div class="chapter-item">光现象</div>
+            <div class="chapter-item">透镜及其应用</div>
+        </div>
+        <div class="chapter-group" data-grade="bx-down" style="display:none;">
+            <div class="chapter-item active">力</div>
+            <div class="chapter-item">运动和力</div>
+            <div class="chapter-item">压强</div>
+            <div class="chapter-item">浮力</div>
+            <div class="chapter-item">功和机械能</div>
+        </div>
+        <div class="chapter-group" data-grade="nj" style="display:none;">
+            <div class="chapter-item active">内能</div>
+            <div class="chapter-item">内能的利用</div>
+            <div class="chapter-item">电流和电路</div>
+            <div class="chapter-item">电压电阻</div>
+            <div class="chapter-item">欧姆定律</div>
+            <div class="chapter-item">电功率</div>
+            <div class="chapter-item">生活用电</div>
+            <div class="chapter-item">电磁</div>
+        </div>
+    </div>
+    
+    <!-- 频道 -->
+    <div class="channel-bar">
+        <div class="channel-btn active"><i class="fas fa-file-alt"></i> 文章</div>
+        <div class="channel-btn"><i class="fas fa-video"></i> 视频</div>
+        <div class="channel-btn"><i class="fas fa-file-pdf"></i> 试卷</div>
+        <div class="channel-btn"><i class="fas fa-check-circle"></i> 答案</div>
+        <div class="channel-btn"><i class="fas fa-info-circle"></i> 关于</div>
+    </div>
+    
+    <!-- 内容 -->
+    <main>
+        <div class="content-grid" id="contentGrid">
+            <!-- 内容将由JS生成 -->
+        </div>
+        
+        <div class="about">
+            <h2>📱 联系物理小屋</h2>
+            <p>有问题？联系：xiaowufadeshijie@iepose.cn</p>
+        </div>
+    </main>
+    
+    <footer>
+        <p>© 2026 物理小屋 | 让物理更有趣</p>
+    </footer>
+    
+    <script>
+        // 内容数据
+        const contentData = {
+            'bx': [
+                {type:'video',title:'🔥 机械运动精讲',desc:'长度、时间、速度...',views:328},
+                {type:'article',title:'📝 参照物理解技巧',desc:'一看就懂！',views:256},
+                {type:'video',title:'🔥 声现象动画',desc:'声音的产生与传播',views:189},
+                {type:'article',title:'📝 物态变化记忆法',desc:'6种变化一次记住',views:312},
+            ],
+            'bx-down': [
+                {type:'video',title:'⚙️ 力的相互作用',desc:'力的概念精讲',views:245},
+                {type:'paper',title:'📄 期末模拟试卷',desc:'含答案',views:156},
+                {type:'answer',title:'✅ 期末答案',desc:'详细解析',views:89},
+            ],
+            'nj': [
+                {type:'video',title:'🔥 内能精讲',desc:'内能、温度...',views:423},
+                {type:'article',title:'📝 电流与电路',desc:'通路断路短路',views:367},
+                {type:'video',title:'🔥 欧姆定律',desc:'I=U/R详解',views:521},
+                {type:'paper',title:'📄 一模试卷',desc:'2026中考',views:234},
+            ]
+        };
+        
+        // 当前选中
+        let currentGrade = 'bx';
+        let currentChapter = '机械运动';
+        
+        // 年级切换
+        document.querySelectorAll('.grade-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.grade-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                currentGrade = this.dataset-grade;
+                
+                // 显示对应章节
+                document.querySelectorAll('.chapter-group').forEach(g => g.style.display = 'none');
+                document.querySelector(`.chapter-group[data-grade="${currentGrade}"]`).style.display = 'flex';
+                
+                // 默认选第一个章节
+                const first = document.querySelector(`.chapter-group[data-grade="${currentGrade}"] .chapter-item`);
+                currentChapter = first.textContent;
+                document.querySelectorAll('.chapter-item').forEach(c => c.classList.remove('active'));
+                first.classList.add('active');
+                
+                renderContent();
+            });
+        });
+        
+        // 章节切换
+        document.querySelectorAll('.chapter-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.chapter-item').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                currentChapter = this.textContent;
+                renderContent();
+            });
+        });
+        
+        // 渲染内容
+        function renderContent() {
+            const grid = document.getElementById('contentGrid');
+            const list = contentData[currentGrade] || [];
+            
+            if(list.length === 0) {
+                grid.innerHTML = `<div class="empty-tip">📚 ${currentGrade} ${currentChapter} 内容整理中...</div>`;
+                return;
+            }
+            
+            grid.innerHTML = list.map(item => `
+                <article class="content-card">
+                    <div class="card-thumb ${item.type}">
+                        <i class="fas ${item.type==='video'?'fa-play-circle':item.type==='paper'?'fa-file-pdf':item.type==='answer'?'fa-check':'fa-book'}"></i>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">${item.title}</h3>
+                        <p class="card-desc">${item.desc}</p>
+                        <div class="card-meta">
+                            <span><i class="far fa-eye"></i> ${item.views}</span>
+                            <span>${currentChapter}</span>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+        
+        // 初始化
+        renderContent();
+        
+        // 频道切换
+        document.querySelectorAll('.channel-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // 登录
+        document.querySelector('.auth-btn').addEventListener('click', function() {
+            alert('注册登录功能开发中...\n注册后可：\n• 发布内容\n• 参与讨论');
+        });
+    </script>
+</body>
+</html>

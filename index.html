@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>物理小屋 - 初中物理知识站</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --secondary: #0891b2;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --bg: #f8fafc;
+            --bg-light: #f1f5f9;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --text-secondary: #94a3b8;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        /* ====== 顶部导航 ====== */
+        header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 0 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .nav-main {
+            display: flex;
+            gap: 0.3rem;
+        }
+        
+        .nav-link {
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        
+        .nav-link:hover {
+            background: var(--bg-light);
+            color: var(--primary);
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .auth-btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        
+        .auth-btn.login {
+            background: var(--bg-light);
+            color: var(--text);
+            border: none;
+        }
+        
+        .auth-btn.register {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+        
+        .auth-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        
+        /* ====== Hero区域 ====== */
+        .hero {
+            background: linear-gradient(135deg, var(--dark) 0%, #1e3a8a 50%, #0ea5e9 100%);
+            padding: 180px 2rem 100px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 40%);
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1.2rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero h1 span {
+            background: linear-gradient(135deg, #60a5fa, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .hero-btn {
+            padding: 0.9rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .hero-btn.primary {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .hero-btn.secondary {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .hero-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .hero-stat {
+            text-align: center;
+        }
+        
+        .hero-stat-num {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .hero-stat-label {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.6);
+        }
+        
+        /* ====== 年级选择 ====== */
+        .grade-section {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .grade-section-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        
+        .grade-grid {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .grade-card {
+            flex: 1;
+            min-width: 200px;
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: var(--text);
+        }
+        
+        .grade-card:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        
+        .grade-card.bx { border-left: 4px solid var(--primary); }
+        .grade-card.bx-down { border-left: 4px solid var(--success); }
+        .grade-card.nj { border-left: 4px solid var(--accent); }
+        
+        .grade-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .grade-card p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        /* ====== 内容区域 ====== */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .section-more {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .content-card {
+            background: var(--card);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text);
+            display: block;
+        }
+        
+        .content-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        
+        .card-thumb {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-thumb::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.2));
+        }
+        
+        .card-thumb.video { background: linear-gradient(135deg, var(--danger), #f97316); }
+        .card-thumb.paper { background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+        .card-thumb.article { background: linear-gradient(135deg, #8b5cf6, #ec4899); }
+        .card-thumb.answer { background: linear-gradient(135deg, var(--success), var(--secondary)); }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .card-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-light);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-bottom: 0.8rem;
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+        
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+        
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .card-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        /* ====== 关于区�� ====== */
+        .about-section {
+            background: var(--card);
+            padding: 3rem 2rem;
+            margin-top: 2rem;
+        }
+        
+        .about-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .about-inner h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .about-inner p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-list {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+        }
+        
+        /* ====== 页脚 ====== */
+        footer {
+            background: var(--dark);
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        /* ====== 响应式 ====== */
+        @media (max-width: 768px) {
+            header { padding: 0 1rem; }
+            .nav-main, .nav-right { display: none; }
+            .hero { padding: 140px 1rem 60px; }
+            .hero h1 { font-size: 2rem; }
+            .hero p { font-size: 1rem; }
+            .hero-stats { flex-direction: column; gap: 1.5rem; }
+            .grade-card { min-width: 100%; }
+            .content-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><i class="fas fa-atom"></i></div>
+                <span>物理小屋</span>
+            </a>
+            
+            <nav class="nav-main">
+                <a href="index.html" class="nav-link">首页</a>
+                <a href="videos.html" class="nav-link">视频</a>
+                <a href="papers.html" class="nav-link">试卷</a>
+                <a href="about.html" class="nav-link">关于</a>
+            </nav>
+            
+            <div class="nav-right">
+                <a href="login.html" class="auth-btn login">登录</a>
+                <a href="register.html" class="auth-btn register">注册</a>
+                <a href="admin.html" class="auth-btn login" style="background: var(--dark); color: white; margin-left: 0.5rem;">管理</a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>探索<span>物理</span>的奇妙世界</h1>
+            <p>初中物理知识一站式学习平台，视频讲解、模拟试卷、答案详解，让物理学习更简单更有趣！</p>
+            <div class="hero-btns">
+                <a href="#grade" class="hero-btn primary">开始学习 →</a>
+                <a href="about.html" class="hero-btn secondary">了解更多</a>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-num">50+</div>
+                    <div class="hero-stat-label">精选内容</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-num">3</div>
+                    <div class="hero-stat-label">年级覆盖</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-num">1000+</div>
+                    <div class="hero-stat-label">学生用户</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 年级选择 -->
+    <section class="grade-section" id="grade">
+        <div class="grade-section-inner">
+            <div class="section-label">选择你的年级</div>
+            <div class="grade-grid">
+                <a href="index.html?grade=bx" class="grade-card bx">
+                    <h3>📚 八年级上</h3>
+                    <p>机械运动、声现象、物态变化、光现象、透镜</p>
+                </a>
+                <a href="index.html?grade=bx-down" class="grade-card bx-down">
+                    <h3>⚙️ 八年级下</h3>
+                    <p>力、运动和力、压强、浮力、功和机械能</p>
+                </a>
+                <a href="index.html?grade=nj" class="grade-card nj">
+                    <h3>🔥 九年级</h3>
+                    <p>内能、电流电路、欧姆定律、电功率...</p>
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 热门内容 -->
+    <main>
+        <div class="section-header">
+            <h2 class="section-title">🔥 热门内容</h2>
+            <a href="videos.html" class="section-more">查看全部 →</a>
+        </div>
+        
+        <div class="content-grid">
+            <a href="#" class="content-card">
+                <div class="card-thumb video"><i class="fas fa-play-circle"></i></div>
+                <div class="card-body">
+                    <span class="card-tag">视频 · 八年级上</span>
+                    <h3 class="card-title">🔥 机械运动精讲</h3>
+                    <p class="card-desc">长度、时间、速度...一文全搞定！</p>
+                    <div class="card-meta">
+                        <span><i class="far fa-eye"></i> 328</span>
+                        <span>5分钟</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="#" class="content-card">
+                <div class="card-thumb video"><i class="fas fa-play-circle"></i></div>
+                <div class="card-body">
+                    <span class="card-tag">视频 · 九年级</span>
+                    <h3 class="card-title">🔥 欧姆定律详解</h3>
+                    <p class="card-desc">I=U/R，这就是欧姆定律！</p>
+                    <div class="card-meta">
+                        <span><i class="far fa-eye"></i> 521</span>
+                        <span>8分钟</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="#" class="content-card">
+                <div class="card-thumb paper"><i class="fas fa-file-pdf"></i></div>
+                <div class="card-body">
+                    <span class="card-tag">试卷 · 八年级下</span>
+                    <h3 class="card-title">📄 期末模拟试卷</h3>
+                    <p class="card-desc">完整版含答案，冲刺期末！</p>
+                    <div class="card-meta">
+                        <span><i class="fas fa-download"></i> 128</span>
+                        <span>90分钟</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="#" class="content-card">
+                <div class="card-thumb article"><i class="fas fa-book"></i></div>
+                <div class="card-body">
+                    <span class="card-tag">文章 · 八年级上</span>
+                    <h3 class="card-title">电压是什么？</h3>
+                    <p class="card-desc">用水流来理解电压，一学就会！</p>
+                    <div class="card-meta">
+                        <span><i class="far fa-eye"></i> 428</span>
+                        <span>3-22</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="#" class="content-card">
+                <div class="card-thumb article"><i class="fas fa-book"></i></div>
+                <div class="card-body">
+                    <span class="card-tag">文章 · 八年级下</span>
+                    <h3 class="card-title">力的相互作用</h3>
+                    <p class="card-desc">原来力是这样作用的！</p>
+                    <div class="card-meta">
+                        <span><i class="far fa-eye"></i> 312</span>
+                        <span>3-17</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="#" class="content-card">
+                <div class="card-thumb answer"><i class="fas fa-check-circle"></i></div>
+                <div class="card-body">
+                    <span class="card-tag">答案 · 九年级</span>
+                    <h3 class="card-title">✅ 期末答案详解</h3>
+                    <p class="card-desc">附详细解析过程</p>
+                    <div class="card-meta">
+                        <span><i class="far fa-eye"></i> 256</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </main>
+    
+    <!-- 关于 -->
+    <section class="about-section">
+        <div class="about-inner">
+            <h2>📱 关于物理小屋</h2>
+            <p>初中物理知识分享平台，让物理学习更简单、更有趣！</p>
+            <div class="contact-list">
+                <span class="contact-item"><i class="fas fa-envelope"></i>xiaowufadeshijie@iepose.cn</span>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <p>© 2026 物理小屋 | 让物理更有趣 · <a href="admin.html">管理后台</a></p>
+    </footer>
+</body>
+</html>

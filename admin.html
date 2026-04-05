@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布内容 - 物理小屋管理后台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #3b82f6; --success: #10b981; --warning: #f59e0b;
+            --danger: #ef4444; --dark: #1e293b; --bg: #f1f5f9; --card: #fff;
+            --text: #1e293b; --text-light: #64748b;
+        }
+        body { font-family: 'Microsoft YaHei', sans-serif; background: var(--bg); min-height: 100vh; }
+        
+        .sidebar { width: 220px; background: var(--dark); color: white; position: fixed; top: 0; left: 0; bottom: 0; padding: 1rem; }
+        .logo { font-size: 1.2rem; font-weight: bold; padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 1rem; }
+        .logo i { margin-right: 0.5rem; }
+        .menu-item { display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem 1rem; border-radius: 10px; cursor: pointer; transition: all 0.3s; margin-bottom: 0.3rem; }
+        .menu-item:hover, .menu-item.active { background: var(--primary); }
+        .menu-item i { width: 20px; }
+        
+        .main { margin-left: 220px; padding: 1.5rem; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .header h1 { font-size: 1.5rem; }
+        
+        .card { background: var(--card); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .card h2 { font-size: 1.1rem; margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid #e2e8f0; }
+        
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 0.6rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.95rem;
+        }
+        .form-group select:disabled { background: #f1f5f9; color: var(--text-light); }
+        .form-group textarea { min-height: 150px; }
+        
+        .btn { padding: 0.6rem 1.2rem; border: none; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 500; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        
+        @media (max-width: 768px) {
+            .sidebar { width: 60px; }
+            .sidebar .logo span, .sidebar .menu-item span { display: none; }
+            .main { margin-left: 60px; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo"><i class="fas fa-atom"></i> <span>管理后台</span></div>
+        <div class="menu-item active" data-page="publish"><i class="fas fa-plus-circle"></i> <span>发布内容</span></div>
+        <div class="menu-item" data-page="articles"><i class="fas fa-file-alt"></i> <span>文章管理</span></div>
+        <div class="menu-item" data-page="videos"><i class="fas fa-video"></i> <span>视频管理</span></div>
+        <div class="menu-item" data-page="papers"><i class="fas fa-file-pdf"></i> <span>试卷管理</span></div>
+        <div class="menu-item" data-page="dashboard"><i class="fas fa-tachometer-alt"></i> <span>返回仪表盘</span></div>
+        <div class="menu-item" data-page="settings"><i class="fas fa-cog"></i> <span>网站设置</span></div>
+    </nav>
+    
+    <main class="main">
+        <div class="header">
+            <h1>📝 发布内容</h1>
+        </div>
+        
+        <div class="card">
+            <h2>基本信息</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>标题 *</label>
+                    <input type="text" id="title" placeholder="请输入标题">
+                </div>
+                <div class="form-group">
+                    <label>内容类型 *</label>
+                    <select id="contentType">
+                        <option value="">请选择类型</option>
+                        <option value="article">📝 文章</option>
+                        <option value="video">🎬 视频</option>
+                        <option value="paper">📄 试卷</option>
+                        <option value="answer">✅ 答案</option>
+                        <option value="other">📦 其他资源</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>学科 *</label>
+                    <select id="subject">
+                        <option value="">请选择学科</option>
+                        <option value="物理">🔬 物理</option>
+                        <option value="数学">📐 数学</option>
+                        <option value="语文">📚 语文</option>
+                        <option value="英语">🔤 英语</option>
+                        <option value="化学">⚗️ 化学</option>
+                        <option value="生物">🧬 生物</option>
+                        <option value="历史">📜 历史</option>
+                        <option value="道法">⚖️ 道法</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>年级 *</label>
+                    <select id="grade" disabled>
+                        <option value="">请先选择学科</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>章节/分类</label>
+                    <select id="chapter" disabled>
+                        <option value="">请先选择年级</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-row" id="examTypeRow" style="display:none;">
+                <div class="form-group">
+                    <label>考试类型</label>
+                    <select id="examType">
+                        <option value="">普通练习</option>
+                        <option value="期中">📅 期中考试</option>
+                        <option value="期末">📅 期末考试</option>
+                        <option value="月考">📅 月考</option>
+                        <option value="一模">📅 一模</option>
+                        <option value="二模">📅 二模</option>
+                        <option value="三模">📅 三模</option>
+                        <option value="中考">🎯 中考</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>内容详情</h2>
+            <div class="form-group">
+                <label>简介/描述</label>
+                <textarea id="description" placeholder="请输入内容描述..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>上传文件（可选）</label>
+                <input type="file" id="file">
+            </div>
+            <button class="btn btn-success" onclick="alert('发布功能开发中')">🚀 发布</button>
+        </div>
+    </main>
+    
+    <script>
+        // 年级-章节 数据
+        const gradeData = {
+            '物理': {
+                '八年级上': ['机械运动', '声现象', '物态变化', '光现象', '透镜'],
+                '八年级下': ['力', '运动和力', '压强', '浮力', '功和机械能'],
+                '九年级': ['内能', '内能的利用', '电流和电路', '电压电阻', '欧姆定律', '电功率', '生活用电', '电磁']
+            },
+            '数学': {
+                '七年级上': ['有理数', '整式', '一元一次方程', '几何图形'],
+                '七年级下': ['相交线与平行线', '实数', '平面直角坐标系', '二元一次方程'],
+                '八年级上': ['全等三角形', '轴对称', '整式乘法'],
+                '八年级下': ['二次根式', '平行四边形', '一次函数'],
+                '九年级上': ['一元二次方程', '旋转', '圆'],
+                '九年级下': ['相似', '锐角三角函数', '投影与视图']
+            },
+            '语文': {
+                '七年级上': ['春', '济南的冬天', '古代诗歌'],
+                '七年级下': ['邓稼先', '说和做', '闻一多'],
+                '其他': ['中考复习', '作文技巧', '文言文']
+            },
+            '英语': {
+                '七年级': ['Starter', 'Unit1-12'],
+                '八年级': ['Unit1-10'],
+                '九年级': ['Unit1-14', '中考复习']
+            },
+            '化学': {
+                '九年级上': ['空气氧气', '水的组成', '原子分子', '化学式', '化学方程'],
+                '九年级下': ['金属', '溶液', '酸碱盐', '化学计算']
+            },
+            '生物': {
+                '七年级上': ['认识生物', '了解生物圈', '细胞'],
+                '七年级下': ['人的由来', '人体的营养', '人体气体交换'],
+                '八年级上': ['动物的主要类群', '动物的运动和行为'],
+                '八年级下': ['传染病', '免疫']
+            },
+            '历史': {
+                '七年级': ['中国古代史'],
+                '八年级': ['中国近代史'],
+                '九年级': ['世界古代史', '世界近代史']
+            },
+            '道法': {
+                '七年级': ['青春时光', '做情绪的主人'],
+                '八年级': ['公民权利', '义务'],
+                '九年级': ['踏上富强路', '法治专题']
+            }
+        };
+        
+        // 学科切换 - 联动年级
+        document.getElementById('subject').addEventListener('change', function() {
+            const subject = this.value;
+            const gradeSelect = document.getElementById('grade');
+            const chapterSelect = document.getElementById('chapter');
+            
+            if (!subject) {
+                gradeSelect.innerHTML = '<option value="">请先选择学科</option>';
+                gradeSelect.disabled = true;
+                chapterSelect.innerHTML = '<option value="">请先选择年级</option>';
+                chapterSelect.disabled = true;
+                return;
+            }
+            
+            // 初始化年级
+            gradeSelect.disabled = false;
+            gradeSelect.innerHTML = '<option value="">请选择年级</option>';
+            
+            const grades = Object.keys(gradeData[subject] || {});
+            grades.forEach(g => {
+                gradeSelect.innerHTML += `<option value="${g}">${g}</option>`;
+            });
+            
+            chapterSelect.innerHTML = '<option value="">请先选择年级</option>';
+            chapterSelect.disabled = true;
+        });
+        
+        // 年级切换 - 联动章节
+        document.getElementById('grade').addEventListener('change', function() {
+            const subject = document.getElementById('subject').value;
+            const grade = this.value;
+            const chapterSelect = document.getElementById('chapter');
+            
+            if (!grade) {
+                chapterSelect.innerHTML = '<option value="">请先选择年级</option>';
+                chapterSelect.disabled = true;
+                return;
+            }
+            
+            chapterSelect.disabled = false;
+            chapterSelect.innerHTML = '<option value="">请选择章节</option>';
+            
+            const chapters = gradeData[subject]?.[grade] || [];
+            chapters.forEach(ch => {
+                chapterSelect.innerHTML += `<option value="${ch}">${ch}</option>`;
+            });
+        });
+        
+        // 试卷类型显示
+        document.getElementById('contentType').addEventListener('change', function() {
+            const examTypeRow = document.getElementById('examTypeRow');
+            if (this.value === 'paper' || this.value === 'answer') {
+                examTypeRow.style.display = 'grid';
+            } else {
+                examTypeRow.style.display = 'none';
+            }
+        });
+        
+        // 菜单切换
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const page = this.dataset.page;
+                if (page === 'dashboard') {
+                    alert('返回仪表盘功能开发中，可以直接关闭这个页面');
+                } else if (page === 'articles' || page === 'videos' || page === 'papers') {
+                    alert(page + '管理功能开发中');
+                } else if (page === 'settings') {
+                    alert('网站设置功能开发中');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

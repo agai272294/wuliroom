@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>八年级上 - 物理小屋</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #3b82f6; --secondary: #06b6d4; --success: #10b981; --accent: #f59e0b; --danger: #ef4444; --dark: #0f172a; --bg: #f8fafc; --card: #fff; --text: #1e293b; --text-light: #64748b; }
+        body { font-family: 'Microsoft YaHei', sans-serif; background: var(--bg); }
+        
+        header { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.05); padding: 0.8rem 2rem; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; }
+        .header-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 70px; }
+        .logo { display: flex; align-items: center; gap: 0.8rem; font-size: 1.3rem; font-weight: 700; color: var(--dark); }
+        .logo-icon { width: 38px; height: 38px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; }
+        .logo a { color: var(--dark); text-decoration: none; }
+        .nav a { color: var(--text); text-decoration: none; margin-left: 1.5rem; font-weight: 500; }
+        
+        .grade-hero { background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 140px 2rem 80px; text-align: center; color: white; position: relative; }
+        .grade-hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.1) 0%, transparent 50%); }
+        .grade-hero h1 { font-size: 2.5rem; margin-bottom: 0.8rem; position: relative; z-index: 1; }
+        .grade-hero p { font-size: 1.1rem; opacity: 0.9; position: relative; z-index: 1; }
+        
+        .chapter-tabs { background: var(--card); padding: 1rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 70px; z-index: 999; }
+        .chapter-tabs-inner { max-width: 1400px; margin: 0 auto; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .chapter-tab { padding: 0.5rem 1rem; border-radius: 20px; background: var(--bg); cursor: pointer; transition: all 0.2s; font-size: 0.9rem; }
+        .chapter-tab:hover, .chapter-tab.active { background: var(--primary); color: white; }
+        
+        main { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        
+        .section-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 1.2rem; }
+        
+        .content-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.2rem; }
+        
+        .content-card { background: var(--card); border-radius: 14px; overflow: hidden; box-shadow: 0 3px 15px rgba(0,0,0,0.06); transition: all 0.3s; cursor: pointer; }
+        .content-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        .card-thumb { height: 150px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: white; }
+        .card-thumb.video { background: linear-gradient(135deg, var(--danger), #f97316); }
+        .card-thumb.paper { background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+        .card-thumb.article { background: linear-gradient(135deg, #8b5cf6, #ec4899); }
+        .card-thumb.answer { background: linear-gradient(135deg, var(--success), var(--secondary)); }
+        
+        .card-body { padding: 1.2rem; }
+        .card-tag { display: inline-block; padding: 0.2rem 0.6rem; background: var(--bg); border-radius: 15px; font-size: 0.75rem; margin-bottom: 0.6rem; }
+        .card-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+        .card-desc { font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.6rem; }
+        .card-meta { font-size: 0.8rem; color: var(--text-light); }
+        
+        footer { background: var(--dark); color: rgba(255,255,255,0.6); text-align: center; padding: 1.5rem; margin-top: 3rem; }
+        footer a { color: white; text-decoration: none; }
+        
+        @media (max-width: 768px) {
+            .nav { display: none; }
+            .grade-hero h1 { font-size: 1.8rem; }
+            .content-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><i class="fas fa-atom"></i></div>
+                <span>物理小屋</span>
+            </a>
+            <nav class="nav">
+                <a href="index.html">首页</a>
+                <a href="grade-bx.html">八年级上</a>
+                <a href="grade-bx-down.html">八年级下</a>
+                <a href="grade-nj.html">九年级</a>
+                <a href="about.html">关于</a>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="grade-hero">
+        <h1>📚 八年级上</h1>
+        <p>机械运动 · 声现象 · 物态变化 · 光现象 · 透镜</p>
+    </section>
+    
+    <div class="chapter-tabs">
+        <div class="chapter-tabs-inner">
+            <span class="chapter-tab active" data-chapter="all">全部</span>
+            <span class="chapter-tab" data-chapter="机械运动">机械运动</span>
+            <span class="chapter-tab" data-chapter="声现象">声现象</span>
+            <span class="chapter-tab" data-chapter="物态变化">物态变化</span>
+            <span class="chapter-tab" data-chapter="光现象">光现象</span>
+            <span class="chapter-tab" data-chapter="透镜">透镜</span>
+        </div>
+    </div>
+    
+    <main>
+        <h2 class="section-title">🔥 八年级上内容</h2>
+        <div class="content-grid">
+            <div class="content-card" data-chapter="机械运动">
+                <div class="card-thumb video"><i class="fas fa-play-circle"></i></div>
+                <div class="card-body">
+                    <span class="card-tag">视频 · 机械运动</span>
+                    <h3 class="card-title">🔥 机械运动精讲</h3>
+                    <p class="card-desc">长度、时间、速度...一文全搞定！</p>
+                    <div class="card-meta"><i class="far fa-eye"></i> 328 · 5分钟</div>
+                </div>
+            </div>
+            <div class="content-card" data-chapter="声现象">
+                <div class="card-thumb video"><i class="fas fa-play-circle"></i></div>
+                <div class="card-body">
+                    <span class="card-tag">视频 · 声现象</span>
+                    <h3 class="card-title">🔥 声现象动画</h3>
+                    <p class="card-desc">声音的产生与传播</p>
+                    <div class="card-meta"><i class="far fa-eye"></i> 189 · 3分钟</div>
+                </div>
+            </div>
+            <div class="content-card" data-chapter="物态变化">
+                <div class="card-thumb article"><i class="fas fa-book"></i></div>
+                <div class="card-body">
+                    <span class="card-tag">文章 · 物态变化</span>
+                    <h3 class="card-title">📝 物态变化记忆法</h3>
+                    <p class="card-desc">6种变化一次记住！</p>
+                    <div class="card-meta"><i class="far fa-eye"></i> 312</div>
+                </div>
+            </div>
+            <div class="content-card" data-chapter="光现象">
+                <div class="card-thumb article"><i class="fas fa-book"></i></div>
+                <div class="card-body">
+                    <span class="card-tag">文章 · 光现象</span>
+                    <h3 class="card-title">📝 光的反射定律</h3>
+                    <p class="card-desc">反射角等于入射角？</p>
+                    <div class="card-meta"><i class="far fa-eye"></i> 256</div>
+                </div>
+            </div>
+            <div class="content-card" data-chapter="透镜">
+                <div class="card-thumb video"><i class="fas fa-play-circle"></i></div>
+                <div class="card-body">
+                    <span class="card-tag">视频 · 透镜</span>
+                    <h3 class="card-title">🔥 透镜成像规律</h3>
+                    <p class="card-desc">一倍焦距分虚实...</p>
+                    <div class="card-meta"><i class="far fa-eye"></i> 421 · 10分钟</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>© 2026 物理小屋 | <a href="admin.html">管理后台</a></p>
+    </footer>
+    
+    <script>
+        // 章节筛选
+        document.querySelectorAll('.chapter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.chapter-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                const chapter = this.dataset.chapter;
+                document.querySelectorAll('.content-card').forEach(card => {
+                    if (chapter === 'all' || card.dataset.chapter === chapter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

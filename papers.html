@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>试卷专区 - 物理小屋</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #3b82f6; --secondary: #06b6d4; --danger: #ef4444; --bg: #f8fafc; --card: #fff; --text: #1e293b; --text-light: #64748b; }
+        body { font-family: 'Microsoft YaHei', sans-serif; background: var(--bg); }
+        
+        /* 顶部 */
+        header { background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 0.8rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .logo { color: white; font-size: 1.2rem; font-weight: bold; }
+        .logo a { color: white; text-decoration: none; }
+        .nav a { color: rgba(255,255,255,0.9); text-decoration: none; margin-left: 1rem; }
+        
+        /* Hero */
+        .hero { background: linear-gradient(135deg, #1e3a8a, var(--primary)); padding: 3rem 1.5rem; text-align: center; color: white; }
+        .hero h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        
+        /* 筛选 */
+        .filter { background: var(--card); padding: 1rem 1.5rem; display: flex; gap: 0.8rem; flex-wrap: wrap; }
+        .filter-item { padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; cursor: pointer; background: #f1f5f9; }
+        .filter-item:hover, .filter-item.active { background: var(--primary); color: white; }
+        
+        /* 试卷网格 */
+        main { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+        .paper-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
+        
+        .paper-card { background: var(--card); border-radius: 12px; overflow: hidden; box-shadow: 0 3px 15px rgba(0,0,0,0.08); transition: all 0.3s; cursor: pointer; }
+        .paper-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+        
+        .paper-thumb { height: 160px; background: linear-gradient(135deg, var(--danger), #f97316); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; position: relative; }
+        .paper-thumb::after { content: '▶'; position: absolute; font-size: 2.5rem; }
+        
+        .paper-info { padding: 1rem; }
+        .paper-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+        .paper-meta { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-light); }
+        
+        .empty { text-align: center; padding: 4rem; color: var(--text-light); }
+        
+        footer { background: #1e293b; color: rgba(255,255,255,0.7); text-align: center; padding: 1.5rem; margin-top: 3rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo"><a href="index.html"><i class="fas fa-atom"></i> 物理小屋</a></div>
+        <nav class="nav">
+            <a href="index.html">首页</a>
+            <a href="papers.html">试卷</a>
+            <a href="papers.html">试卷</a>
+            <a href="about.html">关于</a>
+        </nav>
+    </header>
+    
+    <section class="hero">
+        <h1>📄 物理试卷专区</h1>
+        <p>可视化学习，让物理更简单！</p>
+    </section>
+    
+    <div class="filter">
+        <span class="filter-item active">全部</span>
+        <span class="filter-item">八年级上</span>
+        <span class="filter-item">八年级下</span>
+        <span class="filter-item">九年级</span>
+    </div>
+    
+    <main>
+        <div class="paper-grid">
+            <article class="paper-card">
+                <div class="paper-thumb"><i class="fas fa-play-circle"></i></div>
+                <div class="paper-info">
+                    <h3 class="paper-title">🔥 机械运动精讲</h3>
+                    <div class="paper-meta"><span><i class="far fa-eye"></i> 328</span><span>八年级上</span></div>
+                </div>
+            </article>
+            <article class="paper-card">
+                <div class="paper-thumb"><i class="fas fa-play-circle"></i></div>
+                <div class="paper-info">
+                    <h3 class="paper-title">🔥 参照物理解技巧</h3>
+                    <div class="paper-meta"><span><i class="far fa-eye"></i> 256</span><span>八年级上</span></div>
+                </div>
+            </article>
+            <article class="paper-card">
+                <div class="paper-thumb"><i class="fas fa-play-circle"></i></div>
+                <div class="paper-info">
+                    <h3 class="paper-title">🔥 声现象动画</h3>
+                    <div class="paper-meta"><span><i class="far fa-eye"></i> 189</span><span>八年级上</span></div>
+                </div>
+            </article>
+            <article class="paper-card">
+                <div class="paper-thumb"><i class="fas fa-play-circle"></i></div>
+                <div class="paper-info">
+                    <h3 class="paper-title">🔥 力的相互作用</h3>
+                    <div class="paper-meta"><span><i class="far fa-eye"></i> 312</span><span>八年级下</span></div>
+                </div>
+            </article>
+            <article class="paper-card">
+                <div class="paper-thumb"><i class="fas fa-play-circle"></i></div>
+                <div class="paper-info">
+                    <h3 class="paper-title">🔥 压强计算</h3>
+                    <div class="paper-meta"><span><i class="far fa-eye"></i> 245</span><span>八年级下</span></div>
+                </div>
+            </article>
+            <article class="paper-card">
+                <div class="paper-thumb"><i class="fas fa-play-circle"></i></div>
+                <div class="paper-info">
+                    <h3 class="paper-title">🔥 内能精讲</h3>
+                    <div class="paper-meta"><span><i class="far fa-eye"></i> 423</span><span>九年级</span></div>
+                </div>
+            </article>
+            <article class="paper-card">
+                <div class="paper-thumb"><i class="fas fa-play-circle"></i></div>
+                <div class="paper-info">
+                    <h3 class="paper-title">🔥 欧姆定律</h3>
+                    <div class="paper-meta"><span><i class="far fa-eye"></i> 521</span><span>九年级</span></div>
+                </div>
+            </article>
+            <article class="paper-card">
+                <div class="paper-thumb"><i class="fas fa-play-circle"></i></div>
+                <div class="paper-info">
+                    <h3 class="paper-title">🔥 电功率</h3>
+                    <div class="paper-meta"><span><i class="far fa-eye"></i> 389</span><span>九年级</span></div>
+                </div>
+            </article>
+        </div>
+    </main>
+    
+    <footer>
+        <p>© 2026 物理小屋 | 让物理更有趣</p>
+    </footer>
+    
+    <script>
+        document.querySelectorAll('.filter-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.filter-item').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
