@@ -241,9 +241,14 @@
         
         // 复制代码
         function copyCode() {
+            const title = document.getElementById('title').value;
+            const grade = document.getElementById('grade').value;
+            const chapter = document.getElementById('chapter').value;
+            const description = document.getElementById('description').value;
+            
             const code = document.getElementById('resultCode').textContent;
             navigator.clipboard.writeText(code).then(() => {
-                alert('✅ 代码已复制！\n\n下一步：\n1. 去GitHub仓库\n2. 点Add file → Create new file\n3. 文件名写：posts/' + document.getElementById('title').value.substring(0,20) + '.html\n4. 粘贴代码，提交');
+                alert('✅ 文章代码已复制！\n\n【下一步 - 两步都要做】\n\n【第一步】创建文章文件：\n1. 去GitHub仓库\n2. 点Add file → Create new file\n3. 文件名写：posts/' + title.substring(0,20) + '.html\n4. 粘贴代码，提交\n\n【第二步】更新数据文件：\n1. 在GitHub找到 data.json 文件\n2. 点编辑\n3. 在posts数组里添加一行：\n{"title":"'+title+'","description":"'+description+'","grade":"'+grade+'","chapter":"'+chapter+'","file":"posts/'+title.substring(0,20)+'.html"}\n4. 提交保存\n\n这样文章就会显示在列表里了！');
             });
         }
     </script>

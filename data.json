@@ -1,0 +1,36 @@
+{
+  "posts": [
+    {
+      "id": "001",
+      "title": "机械运动精讲",
+      "description": "长度、时间、速度...一文全搞定！",
+      "grade": "八年级上",
+      "chapter": "机械运动",
+      "date": "2026-03-22",
+      "views": 328,
+      "file": "posts/wuli-001.html"
+    },
+    {
+      "id": "002", 
+      "title": "电压是什么？用水流来理解！",
+      "description": "一文搞定电压基础概念",
+      "grade": "九年级",
+      "chapter": "电压",
+      "date": "2026-03-22",
+      "views": 428,
+      "file": "posts/wuli-002.html"
+    },
+    {
+      "id": "003",
+      "title": "串联并联so easy！",
+      "description": "串联并联电路轻松理解！",
+      "grade": "九年级",
+      "chapter": "电流",
+      "date": "2026-03-17",
+      "views": 356,
+      "file": "posts/wuli-003.html"
+    }
+  ],
+  "videos": [],
+  "papers": []
+}

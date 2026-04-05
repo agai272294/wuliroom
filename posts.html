@@ -15,6 +15,9 @@
         .nav a { color: rgba(255,255,255,0.9); text-decoration: none; margin-left: 1rem; }
         main { max-width: 1000px; margin: 0 auto; padding: 2rem; }
         .page-title { font-size: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid var(--primary); }
+        .filter { display: flex; gap: 0.8rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .filter-btn { padding: 0.5rem 1rem; background: var(--card); border: 2px solid #e2e8f0; border-radius: 20px; cursor: pointer; font-size: 0.9rem; transition: all 0.3s; }
+        .filter-btn:hover, .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
         .article-list { display: grid; gap: 1rem; }
         .article-item { background: var(--card); padding: 1.5rem; border-radius: 12px; box-shadow: 0 3px 15px rgba(0,0,0,0.08); transition: all 0.3s; }
         .article-item:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
@@ -22,6 +25,7 @@
         .article-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
         .article-meta { font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.5rem; }
         .article-desc { font-size: 0.9rem; color: var(--text-light); }
+        .tag { display: inline-block; padding: 0.2rem 0.6rem; background: var(--primary); color: white; border-radius: 15px; font-size: 0.75rem; margin-right: 0.5rem; }
         .empty { text-align: center; padding: 3rem; color: var(--text-light); }
         footer { background: #1e293b; color: rgba(255,255,255,0.7); text-align: center; padding: 1.5rem; margin-top: 2rem; }
     </style>
@@ -39,50 +43,91 @@
     </header>
     <main>
         <h1 class="page-title">📚 全部文章</h1>
-        <div class="article-list" id="articleList">
-            <!-- 示例文章 - 你发布的文章会显示在这里 -->
-            <div class="article-item">
-                <a href="posts/wuli-001.html">
-                    <h3 class="article-title">🔥 机械运动精讲</h3>
-                    <p class="article-meta">八年级上 · 机械运动 · 2026-03-22</p>
-                    <p class="article-desc">长度、时间、速度...一文全搞定！</p>
-                </a>
-            </div>
-            <div class="article-item">
-                <a href="posts/wuli-002.html">
-                    <h3 class="article-title">电压是什么？用水流来理解！</h3>
-                    <p class="article-meta">九年级 · 电压 · 2026-03-22</p>
-                    <p class="article-desc">一文搞定电压基础概念</p>
-                </a>
-            </div>
-            <div class="article-item">
-                <a href="posts/wuli-003.html">
-                    <h3 class="article-title">串联并联so easy！</h3>
-                    <p class="article-meta">九年级 · 电流 · 2026-03-17</p>
-                    <p class="article-desc">串联并联电路轻松理解！</p>
-                </a>
-            </div>
-            <div class="article-item">
-                <a href="posts/wuli-004.html">
-                    <h3 class="article-title">力的相互作用</h3>
-                    <p class="article-meta">八年级下 · 力 · 2026-03-13</p>
-                    <p class="article-desc">原来力是这样作用的！</p>
-                </a>
-            </div>
-            <div class="article-item">
-                <a href="posts/wuli-005.html">
-                    <h3 class="article-title">密度公式原来这么简单！</h3>
-                    <p class="article-meta">八年级下 · 密度 · 2026-03-12</p>
-                    <p class="article-desc">ρ=m/v，像记电话号码一样简单！</p>
-                </a>
-            </div>
+        
+        <!-- 筛选 -->
+        <div class="filter" id="gradeFilter">
+            <span class="filter-btn active" data-grade="全部">全部</span>
+            <span class="filter-btn" data-grade="八年级上">八年级上</span>
+            <span class="filter-btn" data-grade="八年级下">八年级下</span>
+            <span class="filter-btn" data-grade="九年级">九年级</span>
         </div>
-        <div class="empty" id="emptyTip" style="display:none;">
-            <p>暂无文章，快去发布吧！</p>
+        
+        <!-- 文章列表 -->
+        <div class="article-list" id="articleList">
+            <div class="empty">加载中...</div>
         </div>
     </main>
     <footer>
         <p>© 2026 物理小屋 | <a href="admin.html" style="color:#64748b;">管理后台</a></p>
     </footer>
+
+    <script>
+        // 默认文章数据（当data.json加载失败时使用）
+        const defaultPosts = [
+            {id:"001",title:"机械运动精讲",description:"长度、时间、速度...一文全搞定！",grade:"八年级上",chapter:"机械运动",date:"2026-03-22",views:328,file:"posts/wuli-001.html"},
+            {id:"002",title:"电压是什么？",description:"用水流来理解电压，一学就会！",grade:"九年级",chapter:"电压",date:"2026-03-22",views:428,file:"posts/wuli-002.html"},
+            {id:"003",title:"串联并联so easy",description:"串联并联电路轻松理解！",grade:"九年级",chapter:"电流",date:"2026-03-17",views:356,file:"posts/wuli-003.html"},
+            {id:"004",title:"力的相互作用",description:"原来力是这样作用的！",grade:"八年级下",chapter:"力",date:"2026-03-13",views:312,file:"posts/wuli-004.html"},
+            {id:"005",title:"密度公式原来这么简单",description:"ρ=m/v，像记电话号码一样简单！",grade:"八年级下",chapter:"密度",date:"2026-03-12",views:189,file:"posts/wuli-005.html"}
+        ];
+        
+        let allPosts = defaultPosts;
+        let currentFilter = '全部';
+        
+        // 加载数据
+        async function loadData() {
+            try {
+                const response = await fetch('data.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.posts && data.posts.length > 0) {
+                        allPosts = data.posts;
+                    }
+                }
+            } catch (e) {
+                console.log('使用默认数据');
+            }
+            renderPosts();
+        }
+        
+        // 渲染文章列表
+        function renderPosts() {
+            const list = document.getElementById('articleList');
+            const filtered = currentFilter === '全部' 
+                ? allPosts 
+                : allPosts.filter(p => p.grade === currentFilter);
+            
+            if (filtered.length === 0) {
+                list.innerHTML = '<div class="empty">暂无文章，快去发布吧！</div>';
+                return;
+            }
+            
+            list.innerHTML = filtered.map(post => `
+                <div class="article-item">
+                    <a href="${post.file}">
+                        <h3 class="article-title">${post.title}</h3>
+                        <p class="article-meta">
+                            <span class="tag">${post.grade}</span>
+                            ${post.chapter} · ${post.date} · <i class="far fa-eye"></i> ${post.views}
+                        </p>
+                        <p class="article-desc">${post.description}</p>
+                    </a>
+                </div>
+            `).join('');
+        }
+        
+        // 筛选功能
+        document.getElementById('gradeFilter').addEventListener('click', function(e) {
+            if (e.target.classList.contains('filter-btn')) {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentFilter = e.target.dataset.grade;
+                renderPosts();
+            }
+        });
+        
+        // 初始化
+        loadData();
+    </script>
 </body>
 </html>
