@@ -43,59 +43,55 @@
     </header>
     <main>
         <h1 class="page-title">📚 全部文章</h1>
-        
-        <!-- 筛选 -->
         <div class="filter" id="gradeFilter">
             <span class="filter-btn active" data-grade="全部">全部</span>
             <span class="filter-btn" data-grade="八年级上">八年级上</span>
             <span class="filter-btn" data-grade="八年级下">八年级下</span>
             <span class="filter-btn" data-grade="九年级">九年级</span>
         </div>
-        
-        <!-- 文章列表 -->
         <div class="article-list" id="articleList">
             <div class="empty">加载中...</div>
         </div>
     </main>
-    <footer>
-        <p>© 2026 物理小屋 | <a href="admin.html" style="color:#64748b;">管理后台</a></p>
-    </footer>
+    <footer><p>© 2026 物理小屋 | <a href="admin.html" style="color:#64748b;">管理后台</a></p></footer>
 
     <script>
-        // 默认文章数据（当data.json加载失败时使用）
-        const defaultPosts = [
-            {id:"001",title:"机械运动精讲",description:"长度、时间、速度...一文全搞定！",grade:"八年级上",chapter:"机械运动",date:"2026-03-22",views:328,file:"posts/wuli-001.html"},
-            {id:"002",title:"电压是什么？",description:"用水流来理解电压，一学就会！",grade:"九年级",chapter:"电压",date:"2026-03-22",views:428,file:"posts/wuli-002.html"},
-            {id:"003",title:"串联并联so easy",description:"串联并联电路轻松理解！",grade:"九年级",chapter:"电流",date:"2026-03-17",views:356,file:"posts/wuli-003.html"},
-            {id:"004",title:"力的相互作用",description:"原来力是这样作用的！",grade:"八年级下",chapter:"力",date:"2026-03-13",views:312,file:"posts/wuli-004.html"},
-            {id:"005",title:"密度公式原来这么简单",description:"ρ=m/v，像记电话号码一样简单！",grade:"八年级下",chapter:"密度",date:"2026-03-12",views:189,file:"posts/wuli-005.html"}
-        ];
+        // NAS API地址
+        const API_URL = 'http://192.168.1.222:3000';
         
-        let allPosts = defaultPosts;
+        let allPosts = [];
         let currentFilter = '全部';
         
-        // 加载数据
-        async function loadData() {
+        // 加载文章
+        async function loadPosts() {
             try {
-                const response = await fetch('data.json');
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.posts && data.posts.length > 0) {
-                        allPosts = data.posts;
-                    }
+                const response = await fetch(API_URL + '/api/posts');
+                const result = await response.json();
+                if (result.success && result.data) {
+                    allPosts = result.data;
+                } else {
+                    allPosts = getDefaultPosts();
                 }
             } catch (e) {
-                console.log('使用默认数据');
+                console.log('加载失败，使用默认数据', e);
+                allPosts = getDefaultPosts();
             }
             renderPosts();
+        }
+        
+        // 默认文章数据
+        function getDefaultPosts() {
+            return [
+                {id:1,title:'机械运动精讲',description:'长度、时间、速度...',grade:'八年级上',chapter:'机械运动',date:'2026-03-22',views:328,file:'posts/wuli-001.html'},
+                {id:2,title:'电压是什么？',description:'用水流来理解电压！',grade:'九年级',chapter:'电压',date:'2026-03-22',views:428,file:'posts/wuli-002.html'},
+                {id:3,title:'串联并联so easy',description:'串联并联电路轻松理解！',grade:'九年级',chapter:'电流',date:'2026-03-17',views:356,file:'posts/wuli-003.html'}
+            ];
         }
         
         // 渲染文章列表
         function renderPosts() {
             const list = document.getElementById('articleList');
-            const filtered = currentFilter === '全部' 
-                ? allPosts 
-                : allPosts.filter(p => p.grade === currentFilter);
+            const filtered = currentFilter === '全部' ? allPosts : allPosts.filter(p => p.grade === currentFilter);
             
             if (filtered.length === 0) {
                 list.innerHTML = '<div class="empty">暂无文章，快去发布吧！</div>';
@@ -104,19 +100,19 @@
             
             list.innerHTML = filtered.map(post => `
                 <div class="article-item">
-                    <a href="${post.file}">
+                    <a href="${post.file || '#'}">
                         <h3 class="article-title">${post.title}</h3>
                         <p class="article-meta">
                             <span class="tag">${post.grade}</span>
-                            ${post.chapter} · ${post.date} · <i class="far fa-eye"></i> ${post.views}
+                            ${post.chapter || ''} · ${post.date || ''} · <i class="far fa-eye"></i> ${post.views || 0}
                         </p>
-                        <p class="article-desc">${post.description}</p>
+                        <p class="article-desc">${post.description || ''}</p>
                     </a>
                 </div>
             `).join('');
         }
         
-        // 筛选功能
+        // 筛选
         document.getElementById('gradeFilter').addEventListener('click', function(e) {
             if (e.target.classList.contains('filter-btn')) {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -127,7 +123,7 @@
         });
         
         // 初始化
-        loadData();
+        loadPosts();
     </script>
 </body>
 </html>
